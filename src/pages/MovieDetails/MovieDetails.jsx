@@ -14,7 +14,7 @@ export const MovieDetails = () => {
       });
     };
     app();
-  },[]);
+  },);
 
   return (
     <main>
