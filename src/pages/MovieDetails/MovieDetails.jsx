@@ -7,14 +7,10 @@ export const MovieDetails = () => {
   const [movie, setMovie] = useState();
 
   useEffect(() => {
-    const app = async () => {
-      const response = await getMovieById(movieId);
-      response.then(data => {
-        setMovie(data);
-      });
-    };
-    app();
-  },[]);
+    getMovieById(movieId).then(data => {
+      setMovie(data);
+    });
+  }, [movieId]);
 
   return (
     <main>
