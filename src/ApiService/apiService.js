@@ -16,7 +16,7 @@ export const getTrandingMovies = async page => {
 };
 
 export const getMovieById = async id => {
-  const { data } = await axios.get(`${API_URL_MOVIE_ID + id}`, {
+  const { data } = await axios.get(`${API_URL_MOVIE_ID + String(id)}`, {
     params: {
         api_key: API_KEY
     },
