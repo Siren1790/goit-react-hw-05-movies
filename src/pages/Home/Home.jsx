@@ -2,11 +2,12 @@ import { MoviesList } from 'components/MoviesList/MoviesList.jsx';
 import { useEffect, useState } from 'react';
 import { getTrandingMovies } from '../../ApiService/apiService.js';
 import { CircleLoader } from 'react-spinners';
+import ReactPaginate from 'react-paginate';
 
 export const Home = () => {
-  const [currentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [movies, setMovies] = useState([]);
-  const [btnLoad, setBtnLoad] = useState(false);
+  const [btnLoad, setBtnLoad] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -14,7 +15,7 @@ export const Home = () => {
       try {
         const data = await getTrandingMovies(currentPage);
         const { results, total_pages } = data;
-        setBtnLoad(total_pages > currentPage);
+        setBtnLoad(Math.ceil(total_pages));
         setMovies([...results]);
       } catch (err) {
         console.log(err.message);
@@ -25,6 +26,11 @@ export const Home = () => {
       }
     })();
   }, [currentPage]);
+  
+  const handlePageClick = (event) => {
+    console.log(event.selected + 1);
+    setCurrentPage(event.selected + 1);
+  }
 
   return (
     <main>
@@ -48,6 +54,26 @@ export const Home = () => {
       )}
       <MoviesList movies={movies} />
       {btnLoad && <h3>Load More BTN</h3>}
+      <ReactPaginate
+        nextLabel="next >"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={3}
+        marginPagesDisplayed={1}
+        pageCount={btnLoad}
+        previousLabel="< previous"
+        breakLabel="..."
+        renderOnZeroPageCount={null}
+        pageClassName="page-item"
+        pageLinkClassName="page-link"
+        previousClassName="page-item"
+        previousLinkClassName="page-link"
+        nextClassName="page-item"
+        nextLinkClassName="page-link"
+        breakClassName="page-item"
+        breakLinkClassName="page-link"
+        containerClassName="pagination"
+        activeClassName="active"
+      />
     </main>
   );
 };
