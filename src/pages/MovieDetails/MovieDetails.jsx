@@ -1,20 +1,20 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState, Suspense } from 'react';
+import { Outlet, useParams, Link, useLocation } from 'react-router-dom';
 import { getMovieById } from '../../ApiService/apiService.js';
 import { CircleLoader } from 'react-spinners';
 
-export const MovieDetails = () => {
+const MovieDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    (async function fetchDta() {
+    (async function fetchData() {
       try {
         setIsLoading(true);
         const data = await getMovieById(movieId);
         setMovie(data);
-        console.log(data);
       } catch (err) {
         console.log(err);
       } finally {
@@ -30,6 +30,7 @@ export const MovieDetails = () => {
         maxWidth: '960px',
       }}
     >
+      <Link to={location.state?.from ?? '/'}>Go Back</Link>
       {isLoading && (
         <div
           style={{
@@ -56,43 +57,61 @@ export const MovieDetails = () => {
         </div>
       )}
       {movie && (
-        <div
-          style={{
-            // border: '2px solid black',
-            // borderRadius: '2%',
-            marginBottom: '50px',
-            padding: '24px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            boxShadow: "0px 78px 72px 68px rgba(105,105,105,1)",
-          }}
-        >
           <div
             style={{
-              width: '45%',
+              marginBottom: '50px',
+              padding: '24px',
+              display: 'flex',
+              justifyContent: 'space-between',
+              boxShadow: '1px 2px 72px 8px rgba(105,105,105,1)',
             }}
           >
-            <img
+            <div
               style={{
-                width: '100%',
-
-                boxShadow: '0px 0px 16px 13px rgba(173,161,173,1)',
+                width: '45%',
               }}
-              src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-              alt={movie.title}
-            />
-          </div>
-          <div
-            style={{
-              width: '45%',
-            }}
-          >
-            <h2>{movie.title}</h2>
+            >
+              <img
+                style={{
+                  width: '100%',
+                  boxShadow: '0px 0px 16px 13px rgba(173,161,173,1)',
+                }}
+                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                alt={movie.title}
+              />
+            </div>
+            <div
+              style={{
+                width: '45%',
+              }}
+            >
+              <h2>{movie.title}</h2>
 
-            <p>{movie.overview}</p>
+              <p>{movie.overview}</p>
+
+              <p>Release Date: {movie.release_date}</p>
+
+              <p>Rating: {movie.vote_average}</p>
+
+              <div>
+                Additional information
+                <ul>
+                  <li>
+                    <Link to={`/movies/${movieId}/cast`}>Cast</Link>
+                  </li>
+                  <li>
+                    <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
-        </div>
       )}
+      <Suspense fallback={<div>...Loading</div>}>
+        <Outlet />
+      </Suspense>
     </main>
   );
 };
+
+export default MovieDetails;

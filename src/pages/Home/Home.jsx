@@ -4,7 +4,7 @@ import { getTrandingMovies } from '../../ApiService/apiService.js';
 import { CircleLoader } from 'react-spinners';
 import ReactPaginate from 'react-paginate';
 
-export const Home = () => {
+ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [movies, setMovies] = useState([]);
   const [btnLoad, setBtnLoad] = useState(0);
@@ -13,6 +13,7 @@ export const Home = () => {
   useEffect(() => {
     (async function fetchDta() {
       try {
+        setIsLoading(true);
         const data = await getTrandingMovies(currentPage);
         const { results, total_pages } = data;
         setBtnLoad(Math.ceil(total_pages));
@@ -20,15 +21,12 @@ export const Home = () => {
       } catch (err) {
         console.log(err.message);
       } finally {
-        setTimeout(() => {
           setIsLoading(false);
-        }, 11300);
       }
     })();
   }, [currentPage]);
   
   const handlePageClick = (event) => {
-    console.log(event.selected + 1);
     setCurrentPage(event.selected + 1);
   }
 
@@ -53,7 +51,6 @@ export const Home = () => {
         />
       )}
       <MoviesList movies={movies} />
-      {btnLoad && <h3>Load More BTN</h3>}
       <ReactPaginate
         nextLabel="next >"
         onPageChange={handlePageClick}
@@ -77,3 +74,5 @@ export const Home = () => {
     </main>
   );
 };
+
+export default Home;
