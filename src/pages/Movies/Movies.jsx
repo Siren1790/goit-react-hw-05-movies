@@ -21,7 +21,6 @@ const Movies = () => {
       try {
         setIsLoading(true);
         const {results} = await getByName(searchQuery);
-        console.log(results);
         setMoviesData(results);
       } catch (error) {
         console.log(error);

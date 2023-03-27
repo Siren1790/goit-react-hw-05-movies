@@ -30,7 +30,7 @@ const MovieDetails = () => {
         maxWidth: '960px',
       }}
     >
-      <Link to={location.state?.from ?? '/'}>Go Back</Link>
+      <Link to={location.state?.from || '/'}>Go Back</Link>
       {isLoading && (
         <div
           style={{
@@ -97,10 +97,10 @@ const MovieDetails = () => {
                 Additional information
                 <ul>
                   <li>
-                    <Link to={`/movies/${movieId}/cast`}>Cast</Link>
+                    <Link to={`/movies/${movieId}/cast`}  state={{ from: location.state?.from || '/movies' }}>Cast</Link>
                   </li>
                   <li>
-                    <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
+                    <Link to={`/movies/${movieId}/reviews`}  state={{ from: location.state?.from || '/movies' }}>Reviews</Link>
                   </li>
                 </ul>
               </div>

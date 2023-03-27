@@ -11,7 +11,6 @@ const Cast = () => {
           try {
             setIsloading(true);
             const data = await getCredits(movieId);
-            console.log(data);
             setCast(data.cast)
           } catch (err) {
             console.log(err.message);
