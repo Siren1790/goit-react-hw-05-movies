@@ -42,7 +42,7 @@ const Movies = () => {
     <div>
       <form onSubmit={onHandleSubmit}>
         <input type="text" value={query} onChange={handleChange} />
-        <button type="submit">Search movie</button>
+        <button type="submit">Movies</button>
       </form>
       {isLoading && <div>...Loading</div>}
       {moviesData && <MoviesList movies={moviesData} />}
