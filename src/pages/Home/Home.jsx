@@ -50,6 +50,7 @@ import ReactPaginate from 'react-paginate';
           }}
         />
       )}
+      <h2>Trending by Week</h2>
       <MoviesList movies={movies} />
       <ReactPaginate
         nextLabel="next >"

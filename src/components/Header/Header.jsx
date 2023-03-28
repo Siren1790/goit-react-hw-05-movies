@@ -18,9 +18,9 @@ const HeaderComponent = () => {
         </Logo>
         <nav>
           <Link to="/" end>
-            Tranding Movies
+            Home
           </Link>
-          <Link to="/movies">Serch Movies</Link>
+          <Link to="/movies">Movies</Link>
         </nav>
       </Header>
       <Suspense fallback={<div>...Loading</div>}>
